@@ -1,46 +1,44 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
-struct node {
-   int data;
-   struct node *next;
+
+// Structure for a node in the linked list
+struct Node {
+    int data;
+    struct Node *next;
 };
-struct node *head = NULL;
-struct node *current = NULL;
 
+struct Node *head = NULL;
 
-void printList(){
-   struct node *p = head;
-   printf("\n[");
+// Function to print the linked list
+void printList() {
+    struct Node *currentNode = head;
+    printf("Linked List: [");
 
+    while (currentNode != NULL) {
+        printf(" %d ", currentNode->data);
+        currentNode = currentNode->next;
+    }
 
-   while(p != NULL) {
-      printf(" %d ",p->data);
-      p = p->next;
-   }
-   printf("]");
+    printf("]\n");
 }
 
-void insertatbegin(int data){
-
-   struct node *lk = (struct node*) malloc(sizeof(struct node));
-   lk->data = data;
-
-
-   lk->next = head;
-
-   head = lk;
+// Function to insert a new node at the beginning of the linked list
+void insertAtBeginning(int data) {
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = head;
+    head = newNode;
 }
-int main()
-{
-	 int k=0;
-   insertatbegin(12);
-   insertatbegin(22);
-   
-   insertatbegin(50);
-  
-   printf("Linked List: ");
 
-   // print list
-   printList();
+int main() {
+    // Inserting elements at the beginning of the linked list
+    insertAtBeginning(12);
+    insertAtBeginning(22);
+    insertAtBeginning(50);
+
+    // Displaying the linked list
+    
+    printList();
+
+    return 0;
 }
