@@ -1,46 +1,61 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-struct node {
-   int data;
-   struct node *next;
+#include<stdio.h>
+#include<stdlib.h>
+
+struct Node {
+    int data;
+    struct Node *next;
 };
-struct node *head = NULL;
-struct node *current = NULL;
 
+struct Node *head = NULL;
 
-void printList(){
-   struct node *p = head;
-   printf("\n[");
+// Function to print the linked list elements
+void printList() {
+    struct Node *current = head;
+    printf("Linked List: ");
 
-
-   while(p != NULL) {
-      printf(" %d ",p->data);
-      p = p->next;
-   }
-   printf("]");
+    while (current != NULL) {
+        printf("%d ", current->data);
+        current = current->next;
+    }
+    printf("\n");
 }
 
-void insertatbegin(int data){
-
-   struct node *lk = (struct node*) malloc(sizeof(struct node));
-   lk->data = data;
-
-
-   lk->next = head;
-
-   head = lk;
+// Function to insert a node at the beginning of the linked list
+void insertAtBeginning(int data) {
+    struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = head;
+    head = newNode;
 }
-int main()
-{
-	 int k=0;
-   insertatbegin(12);
-   insertatbegin(22);
-   
-   insertatbegin(50);
-  
-   printf("Linked List: ");
 
-   // print list
-   printList();
+// Function to insert a node at the end of the linked list
+void insertAtEnd(int data) {
+    struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+
+    if (head == NULL) {
+        head = newNode;
+    } else {
+        struct Node *temp = head;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+    }
+}
+
+int main() {
+    // Inserting elements into the linked list
+    insertAtBeginning(12);
+    insertAtEnd(45);
+    insertAtEnd(25);
+    insertAtEnd(35); 
+    insertAtEnd(30);
+
+    // Displaying the linked list elements
+    printf("Linked List: ");
+    printList();
+
+    return 0;
 }
