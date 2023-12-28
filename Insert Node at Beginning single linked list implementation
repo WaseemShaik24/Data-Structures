@@ -8,7 +8,7 @@ struct Node {
 };
 
 struct Node *head = NULL;
-
+struct Node *current = NULL;
 // Function to print the linked list
 void printList() {
     struct Node *currentNode = head;
