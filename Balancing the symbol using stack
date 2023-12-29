@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 100
+
+// Structure to represent stack
+typedef struct{
+    char data[MAX_SIZE];
+    int top;
+}Stack;
+
+// Function to initialize stack
+void initialize(Stack *stack) {
+    stack->top = -1;
+}
+
+// Function to check if stack is empty
+int isEmpty(Stack *stack) {
+    return stack->top == -1;
+}
+
+// Function to check if stack is full
+int isFull(Stack *stack) {
+    return stack->top == MAX_SIZE - 1;
+}
+
+// Function to push an element onto the stack
+void push(Stack *stack, char element) {
+    if (isFull(stack)) {
+        printf("Stack Overflow\n");
+        exit(1);
+    }
+    stack->data[++stack->top] = element;
+}
+
+// Function to pop an element from the stack
+char pop(Stack *stack) {
+    if (isEmpty(stack)) {
+        printf("Stack Underflow\n");
+        exit(1);
+    }
+    return stack->data[stack->top--];
+}
+
+// Function to check if symbols are balanced
+int isBalanced(char *expression) {
+    Stack stack;
+    initialize(&stack);
+
+    for (int i = 0; expression[i] != '\0'; i++) {
+        if (expression[i] == '(' || expression[i] == '[' || expression[i] == '{') {
+            push(&stack, expression[i]);
+        } else if (expression[i] == ')' || expression[i] == ']' || expression[i] == '}') {
+            if (isEmpty(&stack)) {
+                return 0;
+            }
+            char top = pop(&stack);
+            if ((expression[i] == ')' && top != '(') ||
+                (expression[i] == ']' && top != '[') ||
+                (expression[i] == '}' && top != '{')) {
+                return 0;
+            }
+        }
+    }
+
+    return isEmpty(&stack);
+}
+
+int main() {
+    char expression[MAX_SIZE];
+
+    printf("Enter an expression: ");
+    fgets(expression, MAX_SIZE, stdin);
+
+    if (isBalanced(expression)) {
+        printf("Symbols are balanced\n");
+    } else {
+        printf("Symbols are not balanced\n");
+    }
+
+    return 0;
+}
