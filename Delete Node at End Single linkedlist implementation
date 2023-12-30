@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node *next;
+};
+
+struct Node *head = NULL;
+
+void printList() {
+    struct Node *temp = head;
+    printf("\n[");
+    while (temp != NULL) {
+        printf("%d", temp->data);
+        if (temp->next != NULL) {
+            printf(",");
+        }
+        temp = temp->next;
+    }
+    printf("]\n");
+}
+
+void insertAtBeginning(int data) {
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = head;
+    head = newNode;
+}
+
+void deleteFromEnd() {
+    if (head == NULL || head->next == NULL) {
+        printf("List is empty or has only one element. Nothing to delete from the end.\n");
+        return;
+    }
+
+    struct Node *temp = head;
+    while (temp->next->next != NULL) {
+        temp = temp->next;
+    }
+    free(temp->next);
+    temp->next = NULL;
+}
+
+int main() {
+    insertAtBeginning(45);
+    insertAtBeginning(68);
+    insertAtBeginning(56);
+    insertAtBeginning(78);
+    insertAtBeginning(69);
+
+    printf("\tLinked list: ");
+    printList();
+
+    deleteFromEnd();
+    printf("\nLinked list after deletion from end: ");
+    printList();
+
+    return 0;
+}
