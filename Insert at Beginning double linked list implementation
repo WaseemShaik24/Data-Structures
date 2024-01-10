@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Node structure to represent each node in the doubly linked list
+struct Node {
+    int data;           // Data stored in the node
+    struct Node* prev;  // Pointer to the previous node
+    struct Node* next;  // Pointer to the next node
+};
+
+// Function to create a new node with given data
+struct Node* createNode(int data) {
+    // Allocate memory for the new node
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+
+    // Initialize the new node with provided data and NULL pointers
+    newNode->data = data;
+    newNode->prev = NULL;
+    newNode->next = NULL;
+
+    return newNode;
+}
+
+// Function to insert a node at the beginning of the doubly linked list
+void insertAtBeginning(struct Node** headRef, int data) {
+    // Create a new node with the provided data
+    struct Node* new_node = createNode(data);
+
+    // If the list is empty, set the new node as the head and return
+    if (*headRef == NULL) {
+        *headRef = new_node;
+        return;
+    }
+
+    // Adjust pointers to insert the new node at the beginning
+    new_node->next = *headRef;       // Set the next of the new node to the current head
+    (*headRef)->prev = new_node;     // Set the previous of the current head to the new node
+    *headRef = new_node;             // Update the head to point to the new node
+}
+
+// Function to display the contents of the doubly linked list
+void display(struct Node* head) {
+    struct Node* current = head;
+
+    // Traverse the list and print each node's data
+    while (current != NULL) {
+        printf("%d <-> ", current->data);
+        current = current->next;
+    }
+    printf("NULL\n");
+}
+
+// Main function to demonstrate the usage of the doubly linked list
+int main() {
+    struct Node* head = NULL; // Initialize an empty linked list
+
+    // Insert nodes at the beginning of the list
+    insertAtBeginning(&head, 5);
+    insertAtBeginning(&head, 10);
+    insertAtBeginning(&head, 15);
+
+    // Display the doubly linked list
+    printf("Doubly Linked List:\n");
+    display(head);
+
+    return 0;
+}
