@@ -1,40 +1,59 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct node {
+struct Node {
     int data;
-    struct node *next;
+    struct Node* next;
 };
 
-struct node *head = NULL;
-struct node *current = NULL;
+struct Node* head = NULL;
 
-void printlist() {
-    struct node *p = head;
-    printf("\n[");
-    while (p != NULL) {
-        printf("%d ", p->data);
-        p = p->next;
+void printList() {
+    struct Node* current = head;
+    printf("Linked List: ");
+    while (current != NULL) {
+        printf("%d ", current->data);
+        current = current->next;
     }
-    printf("]");
+    printf("\n");
 }
 
 void insertAtBeginning(int data) {
-    struct node *newNode = (struct node *)malloc(sizeof(struct node));
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
     newNode->data = data;
     newNode->next = head;
     head = newNode;
 }
 
-void insertAfterNode(struct node *prevNode, int data) {
-    if (prevNode == NULL) {
-        printf("Previous node cannot be NULL");
+void insertAtAnyPosition(int position, int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+
+    if (position <= 0) {
+        printf("Invalid position\n");
         return;
     }
-    struct node *newNode = (struct node *)malloc(sizeof(struct node));
-    newNode->data = data;
-    newNode->next = prevNode->next;
-    prevNode->next = newNode;
+
+    if (position == 1) {
+        newNode->next = head;
+        head = newNode;
+        return;
+    }
+
+    struct Node* current = head;
+    for (int i = 1; i < position - 1 && current != NULL; ++i) {
+        current = current->next;
+    }
+
+    if (current == NULL) {
+        printf("Position out of range\n");
+        free(newNode);
+        return;
+    }
+
+    newNode->next = current->next;
+    current->next = newNode;
 }
 
 int main() {
@@ -42,15 +61,9 @@ int main() {
     insertAtBeginning(40);
     insertAtBeginning(25);
 
-    struct node *current = head;
-    while (current->data != 40) {
-        current = current->next;
-    }
+    insertAtAnyPosition(2, 35); // Insert 35 at position 2
 
-    insertAfterNode(current, 35);
-
-    printf("Linked List: ");
-    printlist();
+    printList();
 
     return 0;
 }
