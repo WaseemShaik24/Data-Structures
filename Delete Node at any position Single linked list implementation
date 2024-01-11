@@ -60,11 +60,15 @@ int main() {
     insertAtBeginning(40);
     insertAtBeginning(55);
 
-    printf("Linked List: ");
+    printf("Initial Linked List: ");
     printList();
 
-    deleteByKey(30);
-    printf("\nLinked List after deletion: ");
+    int keyToDelete;
+    printf("\nEnter the key to delete: ");
+    scanf("%d", &keyToDelete);
+
+    deleteByKey(keyToDelete);
+    printf("Doubly Linked List after deletion: ");
     printList();
 
     return 0;
