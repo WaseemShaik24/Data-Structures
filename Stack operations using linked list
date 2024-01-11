@@ -1,0 +1,120 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node *next;
+};
+
+struct Node *top = NULL;
+
+void push(int value) {
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed. Push operation failed.\n");
+        return;
+    }
+    newNode->data = value;
+    newNode->next = top;
+    top = newNode;
+    printf("Insertion Successful!\n");
+}
+
+void pop() {
+    if (top == NULL) {
+        printf("Stack is empty. Deletion not possible.\n");
+        return;
+    }
+    struct Node *temp = top;
+    printf("Deleted Element: %d\n", temp->data);
+    top = temp->next;
+    free(temp);
+}
+
+void display() {
+    if (top == NULL) {
+        printf("Stack is empty.\n");
+        return;
+    }
+    printf("Stack elements: ");
+    struct Node *temp = top;
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+int peek() {
+    if (top == NULL) {
+        printf("Stack is empty. Peek not possible.\n");
+        return -1; // Returning a sentinel value, you can modify as needed
+    }
+    return top->data;
+}
+
+int isFull() {
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        free(newNode);
+        return 1; // Memory allocation failed, stack is full
+    }
+    free(newNode);
+    return 0; // Memory allocation succeeded, stack is not full
+}
+
+int isEmpty() {
+    return top == NULL;
+}
+
+int size() {
+    int count = 0;
+    struct Node *temp = top;
+    while (temp != NULL) {
+        count++;
+        temp = temp->next;
+    }
+    return count;
+}
+
+int main() {
+    int choice, value;
+    while (1) {
+        printf("\n\n*** MENU ***\n");
+        printf("1. Push\n2. Pop\n3. Display\n4. Peek\n5. Is Full\n6. Is Empty\n7. Size\n8. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter the value to be inserted: ");
+                scanf("%d", &value);
+                push(value);
+                break;
+            case 2:
+                pop();
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                printf("Peek value: %d\n", peek());
+                break;
+            case 5:
+                printf("Is Full: %s\n", isFull() ? "Yes" : "No");
+                break;
+            case 6:
+                printf("Is Empty: %s\n", isEmpty() ? "Yes" : "No");
+                break;
+            case 7:
+                printf("Size of stack: %d\n", size());
+                break;
+            case 8:
+                exit(0);
+            default:
+                printf("Wrong selection! Try again.\n");
+        }
+    }
+
+    return 0;
+}
