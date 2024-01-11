@@ -6,8 +6,29 @@
 int stack[SIZE];
 int top = -1;
 
+int isFull() {
+    return top == SIZE - 1;
+}
+
+int isEmpty() {
+    return top == -1;
+}
+
+int peek() {
+    if (isEmpty()) {
+        printf("\nStack is empty. Peek not possible.");
+        return -1; // Returning a sentinel value, you can modify as needed
+    } else {
+        return stack[top];
+    }
+}
+
+int size() {
+    return top + 1;
+}
+
 void push(int value) {
-    if (top == SIZE - 1) {
+    if (isFull()) {
         printf("\nStack is full. Insertion not possible.");
     } else {
         top++;
@@ -17,7 +38,7 @@ void push(int value) {
 }
 
 void pop() {
-    if (top == -1) {
+    if (isEmpty()) {
         printf("\nStack is empty. Deletion not possible.");
     } else {
         printf("\nDeleted: %d", stack[top]);
@@ -26,7 +47,7 @@ void pop() {
 }
 
 void display() {
-    if (top == -1) {
+    if (isEmpty()) {
         printf("\nStack is empty.");
     } else {
         printf("\nStack elements: ");
@@ -41,7 +62,7 @@ int main() {
     int value, choice;
     while (1) {
         printf("\n\n*** MENU ***\n");
-        printf("1. Push\n2. Pop\n3. Display\n4. Exit\n");
+        printf("1. Push\n2. Pop\n3. Display\n4. Peek\n5. Size\n6. Is Empty\n7. Is Full\n8. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -58,6 +79,18 @@ int main() {
                 display();
                 break;
             case 4:
+                printf("\nPeek value: %d", peek());
+                break;
+            case 5:
+                printf("\nSize of stack: %d", size());
+                break;
+            case 6:
+                printf("\nIs Empty: %s", isEmpty() ? "Yes" : "No");
+                break;
+            case 7:
+                printf("\nIs Full: %s", isFull() ? "Yes" : "No");
+                break;
+            case 8:
                 exit(0);
             default:
                 printf("\nWrong selection! Try again.");
