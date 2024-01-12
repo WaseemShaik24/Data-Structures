@@ -1,0 +1,81 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define TABLE_SIZE 10
+struct Node
+{
+    int data;
+    struct Node* next;
+};
+struct Node* createNode(int data)
+{
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+void init(struct Node* hashTable[])
+{
+	int i;
+    for(i = 0; i < TABLE_SIZE; ++i)
+	{
+        hashTable[i] = NULL;
+    }
+}
+void insert(int key, int data, struct Node* hashTable[])
+{
+    int index = key % TABLE_SIZE;
+    if (hashTable[index] == NULL)
+	{
+        hashTable[index] = createNode(data);
+    }
+	else
+	{
+        struct Node* temp = hashTable[index];
+        while(temp->next != NULL)
+		{
+            temp = temp->next;
+        }
+        temp->next = createNode(data);
+    }
+}
+void display(struct Node* hashTable[])
+{
+	int i;
+    printf("Hash Table:\n");
+    for(i = 0; i < TABLE_SIZE; ++i)
+	{
+        printf("[%d]: ", i);
+        struct Node* temp = hashTable[i];
+        while(temp != NULL)
+		{
+            printf("%d -> ", temp->data);
+            temp = temp->next;
+        }
+        printf("NULL\n");
+    }
+}
+void getUserInput(struct Node* hashTable[])
+{
+    int key, data;
+    printf("Enter key and data (-1 to exit):\n");
+    while(1)
+	{
+        printf("Key: ");
+        scanf("%d", &key);
+        if(key == -1)
+		{
+            break;
+        }
+        printf("Data: ");
+        scanf("%d", &data);
+        insert(key, data, hashTable);
+    }
+}
+int main()
+{
+    struct Node* hashTable[TABLE_SIZE];
+    init(hashTable);
+    getUserInput(hashTable);
+    display(hashTable);
+    return 0;
+}
